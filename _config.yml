@@ -12,8 +12,7 @@ description: > # this means to ignore newlines until "baseurl:"
   kikei.github.io
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://kikei.github.io" # the base hostname & protocol for your site
-twitter_username: jekyllrb
-github_username:  jekyll
+github_username:  kikei
 
 # Build settings
 markdown: kramdown
