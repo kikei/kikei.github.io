@@ -15,6 +15,7 @@ url: "http://kikei.github.io" # the base hostname & protocol for your site
 github_username:  kikei
 
 # Build settings
+timezone: Asia/Tokyo
 markdown: kramdown
 
 gems:
