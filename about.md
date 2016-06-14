@@ -38,3 +38,7 @@ permalink: /about/
 - [激動の2009](http://seiko57.xaxxi.net/)
 - [島](http://g4.xaxxi.net)
 - [一言区域](http://ftf.dw.land.to/)
+
+### Links
+- [Google Bookmarks](https://www.google.co.jp/bookmarks/)
+- [Pocket](https://getpocket.com/a/queue/)
