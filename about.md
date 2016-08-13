@@ -42,3 +42,4 @@ permalink: /about/
 ### Links
 - [Google Bookmarks](https://www.google.co.jp/bookmarks/)
 - [Pocket](https://getpocket.com/a/queue/)
+- [IFTTT](https://ifttt.com/recipes)
