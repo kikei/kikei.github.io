@@ -59,19 +59,25 @@ APIキーは控えておき、あとでAWS Lambdaのコードに埋めこむ。
 
 3. "Create a Recipe"ボタンを押す
 
-![IFTTT Step3](2016-11-03-ifttt3.png)
+  ![IFTTT Step3](/images/screenshots/2016-11-03-ifttt3.png)
 
 4. "this"ボタンを押す
 
 5. "Choose Trigger Channel"画面が表示されるので、"Maker"を選ぶ
 
+  ![IFTTT Step5](/images/screenshots/2016-11-03-ifttt5.png)
+  
 6. "Receive a web request"を選ぶ
 
 7. "Event Name"を"color_received"として、"Create Trigger"ボタンを押す
 
+  ![IFTTT Step7](/images/screenshots/2016-11-03-ifttt7.png)
+  
 8. "that"ボタンを押す
 
 9. "Choose Action Channel"画面が表示されるので、"Phillips Hue"を選ぶ
+
+  ![IFTTT Step9](/images/screenshots/2016-11-03-ifttt9.png)
 
 10. "Change color"を選ぶ
 
@@ -79,10 +85,16 @@ APIキーは控えておき、あとでAWS Lambdaのコードに埋めこむ。
   - Which lights: 点灯したいHue
   - Color value or name: {{Value1}}
 
+  ![IFTTT Step11](/images/screenshots/2016-11-03-ifttt11.png)
+
 12. "Recipe Title"は適当に設定し、"Create Recipe"ボタンを押す
 
+  ![IFTTT Step12](/images/screenshots/2016-11-03-ifttt12.png)
+  
 13. [Maker Channel](https://internal-api.ifttt.com/maker)を開いて、表示されているキーを控える。
 
+  ![IFTTT Step13](/images/screenshots/2016-11-03-ifttt13.png)
+  
 ### AWS Lambdaのセットアップ
 
 1. AWS Lambdaのホームを開く
@@ -101,6 +113,8 @@ APIキーは控えておき、あとでAWS Lambdaのコードに埋めこむ。
   自分は8:40に点灯して欲しいので、上記のようにした。
   "Schedule expression"にはCRONスタイルの指定ができる。
   ただしUTCなので、日本時間では9時間分引き算しないと狙った時間に発動しない。
+
+  ![Lambda Step5](/images/screenshots/2016-11-03-lambda5.png)
 
 6. "Next"ボタンを押す
 
@@ -226,6 +240,8 @@ exports.handler = (event, context, callback) => {
 
 
 9. "Save and test"ボタンを押す。
+
+    ![Lambda Step9](/images/screenshots/2016-11-03-lambda9.png)
 
 10. 10秒くらい待って、Hueの色が変わったら成功。
 
