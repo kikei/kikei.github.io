@@ -53,79 +53,82 @@ APIキーは控えておき、あとでAWS Lambdaのコードに埋めこむ。
 
 当然、点灯したいPhillips Hueと接続済である必要があるが、割愛する。
 
-1. IFTTTのホームを開く
+#### 1. IFTTTのホームを開く
 
-2. "My Recipes"ボタンを押す
+#### 2. "My Recipes"ボタンを押す
 
-3. "Create a Recipe"ボタンを押す
+#### 3. "Create a Recipe"ボタンを押す
 
-  ![IFTTT Step3](/images/screenshots/2016-11-03-ifttt3.png)
+![IFTTT Step3](/images/screenshots/2016-11-03-ifttt3.png)
 
-4. "this"ボタンを押す
+#### 4. "this"ボタンを押す
 
-5. "Choose Trigger Channel"画面が表示されるので、"Maker"を選ぶ
+#### 5. "Choose Trigger Channel"画面が表示されるので、"Maker"を選ぶ
 
-  ![IFTTT Step5](/images/screenshots/2016-11-03-ifttt5.png)
+![IFTTT Step5](/images/screenshots/2016-11-03-ifttt5.png)
   
-6. "Receive a web request"を選ぶ
+#### 6. "Receive a web request"を選ぶ
 
-7. "Event Name"を"color_received"として、"Create Trigger"ボタンを押す
+#### 7. "Event Name"を"color_received"として、"Create Trigger"ボタンを押す
 
   ![IFTTT Step7](/images/screenshots/2016-11-03-ifttt7.png)
   
-8. "that"ボタンを押す
+#### 8. "that"ボタンを押す
 
-9. "Choose Action Channel"画面が表示されるので、"Phillips Hue"を選ぶ
+#### 9. "Choose Action Channel"画面が表示されるので、"Phillips Hue"を選ぶ
 
-  ![IFTTT Step9](/images/screenshots/2016-11-03-ifttt9.png)
+![IFTTT Step9](/images/screenshots/2016-11-03-ifttt9.png)
 
-10. "Change color"を選ぶ
+#### 10. "Change color"を選ぶ
 
-11. 次のように設定して、"Create Action"ボタンを押す:
-  - Which lights: 点灯したいHue
-  - Color value or name: {{Value1}}
+#### 11. 次のように設定して、"Create Action"ボタンを押す:
 
-  ![IFTTT Step11](/images/screenshots/2016-11-03-ifttt11.png)
+- Which lights: 点灯したいHue
+- Color value or name: {{Value1}}
 
-12. "Recipe Title"は適当に設定し、"Create Recipe"ボタンを押す
+![IFTTT Step11](/images/screenshots/2016-11-03-ifttt11.png)
 
-  ![IFTTT Step12](/images/screenshots/2016-11-03-ifttt12.png)
+#### 12. "Recipe Title"は適当に設定し、"Create Recipe"ボタンを押す
+
+![IFTTT Step12](/images/screenshots/2016-11-03-ifttt12.png)
   
-13. [Maker Channel](https://internal-api.ifttt.com/maker)を開いて、表示されているキーを控える。
+#### 13. [Maker Channel](https://internal-api.ifttt.com/maker)を開いて、表示されているキーを控える。
 
-  ![IFTTT Step13](/images/screenshots/2016-11-03-ifttt13.png)
+![IFTTT Step13](/images/screenshots/2016-11-03-ifttt13.png)
   
 ### AWS Lambdaのセットアップ
 
-1. AWS Lambdaのホームを開く
+#### 1. AWS Lambdaのホームを開く
 
-2. "Create Lambda Function"ボタンを押す
+#### 2. "Create Lambda Function"ボタンを押す
 
-3. "Blank Function"を選ぶ
+#### 3. "Blank Function"を選ぶ
 
-4. "Configure triggers"の画面が出るので、Triggerのプルダウンから、"CloudWatch Events - Schedule"を選ぶ
+#### 4. "Configure triggers"の画面が出るので、Triggerのプルダウンから、"CloudWatch Events - Schedule"を選ぶ
 
-5. 次のように設定する:
-  - Rule name: "everyday0840"
-  - Schedule expression: cron(40 23 ? * SUN-THU *)
-  - Enable trigger: チェック
+#### 5. 次のように設定する:
 
-  自分は8:40に点灯して欲しいので、上記のようにした。
-  "Schedule expression"にはCRONスタイルの指定ができる。
-  ただしUTCなので、日本時間では9時間分引き算しないと狙った時間に発動しない。
+- Rule name: "everyday0840"
+- Schedule expression: cron(40 23 ? * SUN-THU *)
+- Enable trigger: チェック
 
-  ![Lambda Step5](/images/screenshots/2016-11-03-lambda5.png)
+自分は8:40に点灯して欲しいので、上記のようにした。
+"Schedule expression"にはCRONスタイルの指定ができる。
+ただしUTCなので、日本時間では9時間分引き算しないと狙った時間に発動しない。
 
-6. "Next"ボタンを押す
+![Lambda Step5](/images/screenshots/2016-11-03-lambda5.png)
 
-7. "Configure function"の画面が出るので、次のように設定する
-  - Name: WeatherEveryMorning (ここは何でもいい)
-  - Runtime: Node.js 4.3
+#### 6. "Next"ボタンを押す
 
-8. コードは以下:
+#### 7. "Configure function"の画面が出るので、次のように設定する
 
-  `iftttSecretKey`と`openWeatherMapApiKey`は各自で書き換えること
-  当然、*書き換えなければ動かない*
+- Name: WeatherEveryMorning (ここは何でもいい)
+- Runtime: Node.js 4.3
+
+#### 8. コードは以下:
+
+`iftttSecretKey`と`openWeatherMapApiKey`は各自で書き換えること
+当然、*書き換えなければ動かない*
     
 ```javascript
 var http = require('http')
@@ -239,9 +242,14 @@ exports.handler = (event, context, callback) => {
 ```
 
 
-9. "Save and test"ボタンを押す。
+#### 9. "Save and test"ボタンを押す。
 
-    ![Lambda Step9](/images/screenshots/2016-11-03-lambda9.png)
+![Lambda Step9](/images/screenshots/2016-11-03-lambda9.png)
 
-10. 10秒くらい待って、Hueの色が変わったら成功。
+#### 10. 10秒くらい待って、Hueの色が変わったら成功。
 
+### あとがき
+
+- 初めてAWS Lambdaを使った。
+- 初めてIFTTT Maker Channelを使った。これは便利。
+- API Keyとかはプログラムに埋め込んでいるが、いずれAWS DynamoDBに格納するなどしたい。
