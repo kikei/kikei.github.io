@@ -93,8 +93,8 @@ APIキーは控えておき、あとでAWS Lambdaのコードに埋めこむ。
 
 5. 次のように設定する:
   - Rule name: "everyday0840"
-  Schedule expression: cron(40 23 ? * SUN-THU *)
-  Enable trigger: チェック
+  - Schedule expression: cron(40 23 ? * SUN-THU *)
+  - Enable trigger: チェック
 
   自分は8:40に点灯して欲しいので、上記のようにした。
   "Schedule expression"にはCRONスタイルの指定ができる。
@@ -103,122 +103,125 @@ APIキーは控えておき、あとでAWS Lambdaのコードに埋めこむ。
 6. "Next"ボタンを押す
 
 7. "Configure function"の画面が出るので、次のように設定する
-  Name: WeatherEveryMorning
-  Runtime: Node.js 4.3
+  - Name: WeatherEveryMorning (ここは何でもいい)
+  - Runtime: Node.js 4.3
 
 8. コードは以下:
 
-    `iftttSecretKey`と`openWeatherMapApiKey`は各自で書き換えること
-    当然、*書き換えなければ動かない*
-
-    var http = require('http')
-    var https = require('https')
+  `iftttSecretKey`と`openWeatherMapApiKey`は各自で書き換えること
+  当然、*書き換えなければ動かない*
     
-    exports.handler = (event, context, callback) => {
-        callback(null, 'Start WeatherToday')
-        var iftttEventName = 'color_received'
-        var iftttSecretKey = 'YourSecretKeyForIFTTTMakeChannel'
-        var openWeatherMapApiKey = "YourOpenWeatherMapApiKey"
-        var openWeatherMapApiCityId = "1850147" // Tokyo
-        
-        fetchWeather((weatherId) =>{ 
-            sendIfttt({
-                value1: colorByWeatherId(weatherId)
-            },
-            (res) => {
-                console.log('done')
-                context.done()
-            },
-            (err) => {
-                console.log("error: " + err)
-                context.done()
-            })
+```javascript
+var http = require('http')
+var https = require('https')
+
+exports.handler = (event, context, callback) => {
+    callback(null, 'Start WeatherToday')
+    var iftttEventName = 'color_received'
+    var iftttSecretKey = 'YourSecretKeyForIFTTTMakeChannel'
+    var openWeatherMapApiKey = "YourOpenWeatherMapApiKey"
+    var openWeatherMapApiCityId = "1850147" // Tokyo
+    
+    fetchWeather((weatherId) =>{ 
+        sendIfttt({
+            value1: colorByWeatherId(weatherId)
+        },
+        (res) => {
+            console.log('done')
+            context.done()
         },
         (err) => {
             console.log("error: " + err)
             context.done()
         })
-        
-        function colorByWeatherId(weatherId) {
-            /**
-             * Convert weather id to light color.
-             * Refer: [Weather Conditions - OpenWeatherMap](http://openweathermap.org/weather-conditions)
-             */
-            switch (Math.floor(weatherId / 100)) {
-            case 2: // Group 2xx: Thunderstorm
-                return "#55bbff"
-            case 3: // Group 3xx: Drizzle
-                return "#8888aa"
-            case 5: // Group 5xx: Rain
-                return "#5555ff"
-            case 6: // Group 6xx: Snow
-                return "#666666"
-            case 8:
-                if (weatherId == 800)
-                    // Group 800: Clear
-                    return "#ffaa00"
-                else
-                    // Group 80x: Clouds
-                    return "#886644"
-            }
-            return '#f0f0f0'
-        }
+    },
+    (err) => {
+        console.log("error: " + err)
+        context.done()
+    })
     
-        function fetchWeather(success, error) {
-            /**
-             * Featch weather information from OpenWeatherMap.
-             * Refer: [5 day weather forecast - OpenWeatherMap](http://openweathermap.org/forecast5)
-             */
-            var uri = "http://api.openweathermap.org/data/2.5/forecast/daily?id=" + openWeatherMapApiCityId + "&cnt=1&APPID=" + openWeatherMapApiKey
-    
-            http.get(uri, (res) => {
-                var body = ""
-            
-                res.on("data", (chunk) => {
-                    body += chunk
-                });
-            
-                res.on("end", () => {
-                    console.log("openweathermap response: " + body)
-                    var res = JSON.parse(body)
-                    var weather = res["list"][0]["weather"][0]["id"] // Get weather id
-                    success(weather)
-                })
-                
-            }).on("error", error)
+    function colorByWeatherId(weatherId) {
+        /**
+         * Convert weather id to light color.
+         * Refer: [Weather Conditions - OpenWeatherMap](http://openweathermap.org/weather-conditions)
+         */
+        switch (Math.floor(weatherId / 100)) {
+        case 2: // Group 2xx: Thunderstorm
+            return "#55bbff"
+        case 3: // Group 3xx: Drizzle
+            return "#8888aa"
+        case 5: // Group 5xx: Rain
+            return "#5555ff"
+        case 6: // Group 6xx: Snow
+            return "#666666"
+        case 8:
+            if (weatherId == 800)
+                // Group 800: Clear
+                return "#ffaa00"
+            else
+                // Group 80x: Clouds
+                return "#886644"
         }
-        
-        function sendIfttt(data, success, error) {
-            var hostname = 'maker.ifttt.com'
-            var path = '/trigger/' + iftttEventName + '/with/key/' + iftttSecretKey
-    
-            var postData = JSON.stringify(data);
-            var options = {
-                hostname: hostname,
-                path: path,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Content-Length': Buffer.byteLength(postData)
-                }
-            }
-            var req = https.request(options, (res) => {
-                var body = ""
-            
-                res.on("data", (chunk) => {
-                    body += chunk
-                })
-            
-                res.on("end", () => {
-                    console.log("sent ifttt: " + body)
-                    success(body)
-                })
-            })
-            req.on("error", error)
-            req.write(postData)
-            req.end()
-        }
+        return '#f0f0f0'
     }
+
+    function fetchWeather(success, error) {
+        /**
+         * Featch weather information from OpenWeatherMap.
+         * Refer: [5 day weather forecast - OpenWeatherMap](http://openweathermap.org/forecast5)
+         */
+        var uri = "http://api.openweathermap.org/data/2.5/forecast/daily?id=" + openWeatherMapApiCityId + "&cnt=1&APPID=" + openWeatherMapApiKey
+
+        http.get(uri, (res) => {
+            var body = ""
+        
+            res.on("data", (chunk) => {
+                body += chunk
+            });
+        
+            res.on("end", () => {
+                console.log("openweathermap response: " + body)
+                var res = JSON.parse(body)
+                var weather = res["list"][0]["weather"][0]["id"] // Get weather id
+                success(weather)
+            })
+            
+        }).on("error", error)
+    }
+    
+    function sendIfttt(data, success, error) {
+        var hostname = 'maker.ifttt.com'
+        var path = '/trigger/' + iftttEventName + '/with/key/' + iftttSecretKey
+
+        var postData = JSON.stringify(data);
+        var options = {
+            hostname: hostname,
+            path: path,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(postData)
+            }
+        }
+        var req = https.request(options, (res) => {
+            var body = ""
+        
+            res.on("data", (chunk) => {
+                body += chunk
+            })
+        
+            res.on("end", () => {
+                console.log("sent ifttt: " + body)
+                success(body)
+            })
+        })
+        req.on("error", error)
+        req.write(postData)
+        req.end()
+    }
+}
+```
+
 
 9. "Save and test"ボタンを押す。
 
