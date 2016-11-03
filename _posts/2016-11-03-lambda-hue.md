@@ -59,6 +59,8 @@ APIキーは控えておき、あとでAWS Lambdaのコードに埋めこむ。
 
 3. "Create a Recipe"ボタンを押す
 
+![IFTTT Step3](2016-11-03-ifttt3.png)
+
 4. "this"ボタンを押す
 
 5. "Choose Trigger Channel"画面が表示されるので、"Maker"を選ぶ
