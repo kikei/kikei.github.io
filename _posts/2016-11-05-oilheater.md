@@ -74,6 +74,7 @@ categories: home
 - 中古販売があり(2016-11-05)、25,000円。
 
 ### 山善
+
 #### [DO-TL124](http://www.yamazen.co.jp/yamazenbook/product/product02/heater/DO-TL124)
 - フィンは8枚？木造6畳までと言っており若干心許無い印象。
 - 5段階で温度設定可能。
