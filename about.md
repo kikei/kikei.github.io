@@ -41,6 +41,7 @@ permalink: /about/
 
 ### Links
 - [Google Bookmarks](https://www.google.co.jp/bookmarks/)
+- [Google Calendar](https://calendar.google.com/calendar/render?hl=ja#main_7)
 - [Pocket](https://getpocket.com/a/queue/)
 - [IFTTT](https://ifttt.com/recipes)
-- [Google Calendar](https://calendar.google.com/calendar/render?hl=ja#main_7)
+- [AWS](https://console.aws.amazon.com/console/home)
