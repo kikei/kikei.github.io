@@ -18,7 +18,7 @@ Fedora25でBru-layを再生するために、いくつか手順を踏んだの�
 ### 参考にしたページ
 
 1. [Fedora 23 ： Blu-ray を再生・視聴する なんとかネット。](http://laniusbucephalus.blog49.fc2.com/blog-entry-571.html)
-
+2. [Bru-lay - ArchWiki](https://wiki.archlinuxjp.org/index.php/Blu-ray)
 
 ### 環境設定編
 
@@ -112,6 +112,7 @@ $ mplayer -lavdopts threads=2 -ao alsa:device=hw=2.0 br:////media
 
 `2.0`の部分は`aplay -l`を使って調べました。
 カード2のデバイス1だから、`2.0`。
+
 ```
 $ aplay -l
 **** ハードウェアデバイス PLAYBACK のリスト ****
