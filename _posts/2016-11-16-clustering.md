@@ -63,6 +63,7 @@ array([ 1.,  3.,  2.])
 クラスタリング結果のフォーマットは、`linkage`の出力と同じだそうです。
 
 [scipy.cluster.hierarchy.linkage](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage)
+
 > An (n−1)(n−1) by 4 matrix Z is returned. At the ii-th iteration, clusters with indices Z[i, 0] and Z[i, 1] are combined to form cluster n+in+i. A cluster with an index less than nn corresponds to one of the nn original observations. The distance between clusters Z[i, 0] and Z[i, 1] is given by Z[i, 2]. The fourth value Z[i, 3] represents the number of original observations in the newly formed cluster.
 
 どういうことかというと、実行結果はこんな感じです。
@@ -103,6 +104,9 @@ array([[ 0.        ,  1.        ,  1.        ,  2.        ],
 [kikei/nirvanam-watch](https://github.com/kikei/nirvanam-watch)で実用しているので、そちらを参照してください。
 
 ```python
+import requests
+import json
+import base64
 
 GOOGLE_CLOUD_VISION_API_URL = 'https://vision.googleapis.com/v1/images:annotate?key='
 
@@ -154,19 +158,16 @@ def clusterize(annotations):
     # print('drawing dendrogram')
     # dendrogram(clusters)
     # show()
-	
-	return clusters
+    return clusters
 
 if __name__ == '__main__':
     imagefile = os.path.join('.', 'songs.png')
-	google_api_key = 'hoge'
-	
+    google_api_key = 'hoge'
+    
     data = detect_text(imagefile, google_api_key)
     annotations = data['responses'][0]['textAnnotations']
     annotations = annotations[1:]
     print(clusterize(annotations))
-        
-    return clusters
 ```
 
 ### まとめ
