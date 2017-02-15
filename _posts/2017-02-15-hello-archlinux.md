@@ -100,7 +100,6 @@ config:
 
 errors: No known data errors
 ```
-
 問題なさそう。
 
 ### スナップショットの作成 (OpenIndiana)
@@ -111,6 +110,12 @@ errors: No known data errors
 zfs list -t snapshot
 zfs snapshot house/library@snapshot-20170212
 zfs snapshot house/living@snapshot-20170212
+```
+
+あとは、プールを取り外しておく。
+
+```
+zpool export house
 ```
 
 OpenIndiana はここまで。
@@ -124,6 +129,18 @@ https://wiki.archlinuxjp.org/index.php/インストールガイド
 UEFIブートのところだけよくわからなかったので、下記ページも参考になった。
 
 http://note.kurodigi.com/archlinux-uefi-install/
+
+はじめに、UEFI モードで起動していることを確認する。
+
+```
+# ls /sys/firmware/efi/efivars
+```
+
+UEFI モードでない場合、`efi` ディレクトリが存在しない。
+その場合は、BIOS モードというおなじみのモードで起動している。
+
+本稿では UEFI モードで起動できることを目指しており、
+以降の記載も UEIF モードでの起動が前提になっている。
 
 `/dev/sda` に ArchLinux をインストールする。
 
@@ -194,14 +211,21 @@ ESP (EFI System Partition)
 # timedatectl status
 ```
 
-パッケージの設定
+パッケージの設定とカーネルイメージのインストール。
 
 ```
 # vi /etc/pacman.d/mirrorlist
 # pacstrap /mnt base base-devel
 ```
 
-`fstab`の作成
+これで、`boot` に `vmlinuz-linux` とかが作られる。
+
+```
+fg-arch% ls /boot 
+EFI  initramfs-linux-fallback.img  initramfs-linux.img	loader	vmlinuz-linux
+```
+
+`fstab` の作成
 
 ```
 # genfstab -U /mnt >> /mnt/etc/fstab
@@ -241,6 +265,7 @@ ESP (EFI System Partition)
 127.0.0.1	localhost.localdomain	localhost
 ::1		localhost.localdomain	localhost
 127.0.1.1	fg-arch.localdomain	fg-arch
+::1	fg-arch.localdomain	fg-arch
 ```
 
 ネットワーク設定の再確認。
@@ -253,13 +278,13 @@ ESP (EFI System Partition)
 # dmesg | grep tg3
 ```
 
-`tg3` が `enp4s0`。
+`tg3` が `enp3s0`。
 
 ```
 # dmesg | grep e1000e
 ```
 
-`e1000e` が `enp9s0`。
+`e1000e` が `enp8s0`。
 
 パスワード設定。
 
