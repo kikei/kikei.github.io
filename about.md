@@ -29,7 +29,8 @@ permalink: /about/
 - [SBITrader Wiki](https://153.122.23.142:8561/wiki/MyStartingPage)
 
 ### Sites
-- [Redmine](http://redmine.xaxxi.net)
+- [Redmine](https://redmine.xaxxi.net)
+- [House](https://h.xaxxi.net)
 - [古自棄](http://f.xaxxi.net)
 - [放置演算子](http://blog.xaxxi.net/)
 - [お電場](http://chu.xaxxi.net/)
