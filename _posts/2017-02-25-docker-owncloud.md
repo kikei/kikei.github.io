@@ -4,7 +4,7 @@ title:  "Docker ComposeでownCloudを構築した"
 categories: server
 ---
 
-本稿は [Docker+Nginx+ownCloud+SSLで構築した](2017-02-19-owncloud.md)の続きである。
+本稿は [Docker+Nginx+ownCloud+SSLで構築した](https://kikei.github.io/server/2017/02/19/owncloud.html)の続きである。
 Docker Compose を使って、ポータブルな ownCloud 環境を構築する。
 
 過去記事では生の `docker` コマンドを使って Nginx+ownCloud+PostgreSQL による
@@ -219,7 +219,7 @@ Dockerfile を指定するときは、
 
 ownCloud の設定とかが知りたい方は前回の記事の該当部分を見たらいいと思う。
 
-[Docker+Nginx+ownCloud+SSLで構築した](2017-02-19-owncloud.md)
+[Docker+Nginx+ownCloud+SSLで構築した](https://kikei.github.io/server/2017/02/19/owncloud.html)
 
 今回の場合、初期設定は次のようにする。
 
