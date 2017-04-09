@@ -56,6 +56,7 @@ owncloud/
 - 443番ポートで HTTPS を LISTEN する。
 - 80番ポートはガン無視。
 - Let's Encrypt な証明書を参照させる。
+- ファイルアップロードは 100 GB まで許可。
 
 ```
 % cat default.conf
@@ -76,6 +77,8 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
         proxy_pass http://owncloud/;
+
+        client_max_body_size 100g;
     }
 略
 }
@@ -252,6 +255,10 @@ ownCloud の設定とかが知りたい方は前回の記事の該当部分を�
 ### 感想
 
 Docker Compose 便利。
+
+### 続き
+
+大きなファイルをアップロードできない問題があったけど、[続編](https://kikei.github.io/server/2017/04/10/docker-dir.html)で解決した。
 
 ### 参考
 
