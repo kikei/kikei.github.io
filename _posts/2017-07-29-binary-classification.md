@@ -122,12 +122,12 @@ $$ h_\theta(X) $$ は 入力 $$ X $$ に対し、$$ y = 1 $$ になる確率と�
 すなわち、以下の式のように書く。
 
 $$
-y = \left\{
+y = \begin{cases}
 \begin{array}{ll}
 1 & (h_\theta(X) \geq 0.5) \\
 0 & (h_\theta(X) \lt 0.5)
 \end{array}
-\right
+\end{cases}
 $$
 
 ちなみにシグモイド関数は以下のような形になる。
@@ -303,4 +303,121 @@ v.calc(y_test, y_pred)
 ```
 print('Precision: {}, Recall: {}'.format(precision(v), recall(v)))
 Precision: 0.972451790634, Recall: 0.986033519553
+```
+
+### ソースコード
+
+最後にソースコードを貼り付けておく。
+
+```python
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+from keras.models import Sequential
+from keras.layers import Dense, Activation
+from keras.callbacks import EarlyStopping
+
+import numpy as np
+
+def f(x_0, x_1):
+  p = 0.6
+  q = 0.4
+  a2 = 0.3 ** 2
+  b2 = 0.3 ** 2
+  return ((x_0 - p) ** 2) / a2 + ((x_1 - q) ** 2) / b2 > 1.0
+
+# Prepare data
+A = np.random.random((10000, 2))
+X = np.c_[A[:,0], A[:,1], A[:,0]**2, A[:,1]**2]
+y = f(X[:,0], X[:,1]) + 0
+
+A_train = A[:9000]
+X_train = X[:9000]
+y_train = y[:9000]
+X_test = X[9001:]
+y_test = y[9001:]
+
+plt.clf()
+X_positive = X_train[np.where(y_train == 0)]
+X_negative = X_train[np.where(y_train == 1)]
+plt.plot(X_positive[:500,0], X_positive[:500,1], 'o')
+plt.plot(X_negative[:500,0], X_negative[:500,1], 'x')
+plt.savefig('X_train.png')
+
+# Build a model
+model = Sequential()
+model.add(Dense(1, input_dim=4, kernel_initializer='uniform'))
+model.add(Activation('sigmoid'))
+model.compile(optimizer='adam', loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+# Run training
+early_stopping = EarlyStopping(monitor='val_loss', patience=2)
+hist = model.fit(X_train, y_train,
+                 epochs=1000, verbose=1,
+                 validation_split=0.1,
+                 callbacks=[early_stopping])
+
+plt.clf()
+plt.xlabel('epochs')
+plt.ylabel('val_loss')
+plt.plot(np.arange(0, 903), hist.history['loss'], label='loss')
+plt.plot(np.arange(0, 903), hist.history['val_loss'], label='val_loss')
+plt.savefig('fit_loss.png')
+
+scores = model.evaluate(X_test, y_test)
+print(scores)
+
+# Show result
+w = model.get_weights()
+theta = w[0][:,0]
+theta_0, theta_1, theta_2, theta_3 = theta
+bias = w[1][0]
+
+print('theta_0 = {}, theta_1 = {}, theta_2 = {}, theta_3 = {}, bias = {}'
+      .format(theta_0, theta_1, theta_2, theta_3, bias)
+
+X_0_mesh = np.linspace(0, 1, 51)
+X_1_mesh = np.linspace(0, 1, 51)
+X_0_mesh, X_1_mesh = np.meshgrid(X_0_mesh, X_1_mesh)
+y_mesh = X_0_mesh * theta_0 + X_1_mesh * theta_1 + (X_0_mesh ** 2) * theta_2 + (X_1_mesh ** 2) * theta_3 + bias
+
+plt.clf()
+X_positive = X_train[np.where(y_train == 0)]
+X_negative = X_train[np.where(y_train == 1)]
+plt.contour(X_0_mesh, X_1_mesh, y_mesh, [0])
+plt.plot(X_positive[:500,0], X_positive[:500,1], 'o')
+plt.plot(X_negative[:500,0], X_negative[:500,1], 'x')
+plt.savefig('Xy_pred.png')
+
+class ThreatScore(object):
+  def __init__(self, score=None):
+    if score is not None:
+      self.true_positive = score.true_positive
+      self.false_positive = score.falsee_positive
+      self.false_negative = score.false_negative
+      self.true_negative = score.true_negative
+  
+  def calc(self, correct, pred):
+    self.true_positive = np.sum(np.logical_and(correct == 1, pred == 1))
+    self.false_positive = np.sum(np.logical_and(correct == 0, pred == 1))
+    self.false_negative = np.sum(np.logical_and(correct == 1, pred == 0))
+    self.true_negative = np.sum(np.logical_and(correct == 0, pred == 0))
+  
+  def __str__(self):
+    t = 'TP: {}, FP: {}, FN: {}, TN: {}'
+    return t.format(self.true_positive, self.false_positive, self.false_negative, self.true_negative)
+
+def precision(v):
+  return v.true_positive * 1.0 / (v.true_positive + v.false_positive)
+
+def recall(v):
+  return v.true_positive * 1.0 / (v.true_positive + v.false_negative)
+
+v = ThreatScore()
+y_pred = (X_test[:,0] * theta_0 + X_test[:,1] * theta_1 + (X_test[:,0] ** 2) * theta_2 + (X_test[:,1] ** 2) * theta_3 + bias > 0) + 0
+y_pred = y_pred + 0
+v.calc(y_test, y_pred)
+print('Precision: {}, Recall: {}'.format(precision(v), recall(v)))
 ```
