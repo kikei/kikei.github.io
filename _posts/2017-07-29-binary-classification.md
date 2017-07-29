@@ -256,8 +256,10 @@ True Positive、False Positive、False Negative、True Positiveの個数を数�
 Precision、Recallは以下の式で計算する。
 
 $$
-Precision = \frac{#TP}{#TP + #FP}
-Recall = \frac{#TP}{$TP + #FN}
+\begin{align}
+Precision &= \frac{\#TP}{\#TP + \#FP} \\
+Recall &= \frac{\#TP}{\#TP + \#FN}
+\end{align}
 $$
 
 この計算プログラムは自作した。
