@@ -24,3 +24,5 @@ gems:
     - jekyll-sitemap
     - jekyll-feed
 
+# Etc.
+google_analytics: UA-15496220-3
