@@ -11,20 +11,20 @@ categories: smart-home
 Sony MESH Hub は Raspberry Pi 上で動作する Sony MESH ゲートウェイサーバである。
 Raspberry Pi を常時電源に接続しておくことで MESH のレシピを24時間動作させることができる。
 
-我が家にはMESHの人感センサータグとPhillips Hueがあり、これらを接続するレシピを組んで、玄関の人感センサー付きライトを実現している。既製品と比べ、レシピの組み方でいくらでも自分にあったチューニングが効くところが便利だ。
+我が家には MESH の人感センサータグと Phillips Hue があり、これらを接続するレシピを組んで、玄関の人感センサー付きライトを実現している。既製品と比べレシピの組み方でいくらでも自分にあったチューニングが効くところが便利だ。
 
 
 さて最近、Raspberry Pi に初音ミクの声のしゃべってもらうという記事を見つけた。
 
 [Open JTalkで初音ミクの声でおしゃべりさせる on Mac/Linux/Raspberry Pi](http://karaage.hatenadiary.jp/entry/2016/07/22/073000)
 
-この記事では、Raspberry Pi上でミクさんの声を合成し、Raspberry Piに接続したスピーカーから音声を出力させている。
+この記事では、Raspberry Pi 上でミクさんの声を合成し、Raspberry Pi に接続したスピーカーから音声を出力させている。
 
-Sony MESH HubがRaspberry Pi上で動作し、Raspberry Piでミクさんにしゃべってもらえるのならば、Sony MESHのレシピをトリガーにしてミクさんにしゃべってもらうことも当然できるはずだ。
+Sony MESH Hub が Raspberry Pi 上で動作し、かつ Raspberry Pi でミクさんにしゃべってもらえるのならば、Sony MESH のレシピをトリガーにしてミクさんにしゃべってもらうことも当然できるはずだ。
 
-ということは、家に帰ったらミクさんにおかえりと言ってもらえるっていうのもできるはず。
+ということは家に帰ったらミクさんにおかえりと言ってもらえるっていうのもできるはず。
 
-そこで今回は、玄関においた Sony MESH の人感センサーが反応したら、ミクさんがおかえりを言ってくれる、という仕組みを作ってみた。
+そこで今回は、玄関においた Sony MESH の人感センサーが反応したら、ミクさんがおかえりを言ってくれるという仕組みを作ってみた。
 
 そうは言うものの普通、MESH のレシピから実現できる機能は公式で提供する範囲に限定されているため、ミクさんにしゃべってもらうというのは簡単ではない。
 
@@ -257,24 +257,24 @@ Device FC:65:DE:AA:E2:6B
 	Modalias: usb:v1949p1200d5100
 ```
 
-これでRaspberryPiとEcho Dotを接続できた。
-次はEcho DotをBluetoothスピーカーとして使うための設定を行う。
+これで RaspberryPi と Echo Dot を接続できた。
+次は Echo Dot を Bluetooth スピーカーとして使うための設定を行う。
 
 #### Echo Dot をスピーカーにする
 
 スピーカー、というか音声出力の設定は Pulse Audio を使う。
-Pulse Audioはざっくり言うと音声入力と出力を繋ぐアプリケーションであり、
-Linux上ではサウンドサーバとして動作する。
+Pulse Audio はざっくり言うと音声入力と出力を繋ぐアプリケーションであり、
+Linux 上ではサウンドサーバとして動作する。
 
 ここは [Raspberry Pi 3B + BluetoothスピーカでAmazon Alexaを安く構築（１　まずは音を鳴らす）](https://qiita.com/onelittlenightmusic/items/05b262c60c4889c07ca9) で紹介されている手順を参考にした。
 
-まずはPulseAudio関連のライブラリをインストールする。
+まずは Pulse Audio 関連のライブラリをインストールする。
 
 ```
 $ sudo apt-get install pulseaudio pavucontrol pulseaudio-module-bluetooth
 ```
 
-PulseAudio を Systemd で管理するので `pulseaudio.service` ファイルを作っておく。
+Pulse Audio を Systemd で管理するので `pulseaudio.service` ファイルを作っておく。
 
 ```
 # cat /etc/systemd/system/pulseaudio.service 
@@ -288,6 +288,7 @@ ExecStart=/usr/bin/pulseaudio --system --disallow-exit --disable-shm
 [Install]
 WantedBy=multi-user.target
 ```
+
 
 そしてサービスを起動＆うまくいくこと前提で自動起動ON。
 
@@ -331,20 +332,15 @@ WantedBy=multi-user.target
    CGroup: /system.slice/pulseaudio.service
            └─309 /usr/bin/pulseaudio --system --disallow-exit --disable-shm
 
- 3月 14 08:03:28 fg-rasp1 pulseaudio[309]: W: [pulseaudio] authkey.c: Failed to open cookie file '/var/ru
- 3月 14 08:03:28 fg-rasp1 pulseaudio[309]: W: [pulseaudio] authkey.c: Failed to load authentication key '
- 3月 14 08:03:28 fg-rasp1 pulseaudio[309]: W: [pulseaudio] authkey.c: Failed to open cookie file '/var/ru
- 3月 14 08:03:28 fg-rasp1 pulseaudio[309]: W: [pulseaudio] authkey.c: Failed to load authentication key '
- 3月 14 08:03:33 fg-rasp1 pulseaudio[309]: E: [pulseaudio] bluez5-util.c: Found duplicated D-Bus path for
- 3月 14 08:03:33 fg-rasp1 pulseaudio[309]: E: [pulseaudio] bluez5-util.c: Found duplicated D-Bus path for
- 3月 14 08:03:33 fg-rasp1 pulseaudio[309]: E: [pulseaudio] bluez5-util.c: Found duplicated D-Bus path for
- 3月 14 08:03:47 fg-rasp1 pulseaudio[309]: No protocol specified
- 3月 14 08:03:47 fg-rasp1 pulseaudio[309]: E: [pulseaudio] x11wrap.c: XOpenDisplay() failed
- 3月 14 08:03:47 fg-rasp1 pulseaudio[309]: E: [pulseaudio] module.c: Failed to load module "module-x11-pu
+ 3月 23 01:50:39 fg-rasp1 pulseaudio[8042]: W: [pulseaudio] main.c: Running in system mode, but --disallo-module-loading not set.
+ 3月 23 01:50:39 fg-rasp1 pulseaudio[8042]: N: [pulseaudio] main.c: Running in system mode, forcibly disaling exit idle time.
+ 3月 23 01:50:39 fg-rasp1 pulseaudio[8042]: W: [pulseaudio] main.c: OK, so you are running PA in system mde. Please make sure that you actually do want to do that.
+ 3月 23 01:50:39 fg-rasp1 pulseaudio[8042]: W: [pulseaudio] main.c: Please read http://www.freedesktop.og/wiki/Software/PulseAudio/Documentation/User/WhatIsWrongWithSystemWide/ for an explanation why system mode is usually a bad idea.
 ```
 
-これもエラーがたくさんでているが、結果でいくとミクさんにしゃべってもらう分には問題無かった。
-エラーについては暇なときに調べてみようと思う。
+`--disallow-module-loading` が無い、とログに書いてある場合もあるが、
+これは無視でよかった。逆にこのフラグを追加すると Echo Dot から音が出なくなった。
+
 
 以下は Pulse Audio の音声出力先を Bluetooth スピーカーに向けるための設定。
 
@@ -364,8 +360,9 @@ load-module module-bluetooth-discover
 .endif
 ```
 
-これも必須かわからない。
+これは必須かもしれない。
 
+世の記事では `/etc/dbus-1/system.d/pulseaudio-bluetooth.conf` に書いているようだが、面倒なので `/etc/dbus-1/system.d/bluetooth.conf` に追記した。`pulse` ユーザが `org.bruez` に接続することを許可する、そう言っている。
 
 ```
 $ sudo vi /etc/dbus-1/system.d/bluetooth.conf 
@@ -399,7 +396,65 @@ $ tail -10 /etc/dbus-1/system.d/pulseaudio-system.conf
 $ aplay /usr/share/sounds/alsa/Noise.wav
 ```
 
-さて、いよいよミクさんに出番である。
+これでもよい。
+
+```
+$ aplay -D default /usr/share/sounds/alsa/Noise.wav
+```
+
+`default` って何ですか、というと Pulse Audio から再生するよ、ってことである。
+
+```
+$ aplay -L | grep -A1 default
+default
+    Playback/recording through the PulseAudio sound server
+sysdefault:CARD=ALSA
+    bcm2835 ALSA, bcm2835 ALSA
+```
+
+Echo Dot から音が出ているとき、Pulse Audio の設定は以下のようになっていた。
+
+```
+$ pactl info
+Server String: /var/run/pulse/native
+Library Protocol Version: 32
+Server Protocol Version: 32
+Is Local: yes
+Client Index: 67
+Tile Size: 65496
+User Name: pulse
+Host Name: fg-rasp1
+Server Name: pulseaudio
+Server Version: 10.0
+Default Sample Specification: s16le 2ch 44100Hz
+Default Channel Map: front-left,front-right
+Default Sink: bluez_sink.FC_65_DE_AA_E2_6B.a2dp_sink
+Default Source: bluez_sink.FC_65_DE_AA_E2_6B.a2dp_sink.monitor
+Cookie: b519:85cf
+```
+
+いつのまにそうなったのか不明だが `Default Sink` が Echo Dot への Bluethtooth 出力になっている。
+A2DPというのは音楽配信を得意とする Bluetooth のプロファイルだそうだ。
+
+[ケータイ用語の基礎知識 第259回 : A2DPとは](https://k-tai.watch.impress.co.jp/cda/article/keyword/27461.html)
+
+これまで意識していなかったけれども Echo Dot のヘルプにもちゃんと書いてあった。
+
+> また、モバイル端末（スマートフォンやタブレットなど）からEcho Dotにオーディオをストリーミング再生することもできます。
+> [Echo Dot向けの認定スピーカーとサポートされているBluetoothプロファイル](https://www.amazon.co.jp/gp/help/customer/display.html?nodeId=202011880)
+
+うまくいかなくて困ったときには、そもそも Pulse Audio から Echo Dot が見えているかどうかを以下のコマンドで確認することができるかもしれない。
+
+```
+$ pactl list short sinks
+0	alsa_output.platform-soc_audio.analog-stereo	module-alsa-card.c	s16le 2ch 48000Hz	SUSPENDED
+1	bluez_sink.FC_65_DE_AA_E2_6B.a2dp_sink	module-bluez5-device.c	s16le 2ch 44100Hz	SUSPENDED
+$ pactl list short cards
+0	alsa_card.platform-soc_audio	module-alsa-card.c
+1	bluez_card.FC_65_DE_AA_E2_6B	module-bluez5-device.c
+```
+
+さてなかなかに長い道程だったが Bluetooth とか Pulse Audio とかに少し詳しくなったところで、いよいよミクさんに出番である。
 
 ## 2. ミクさんにしゃべってもらうアプリケーション
 
