@@ -71,7 +71,7 @@ plt.imshow(x_train[6,:,:,:])
 plt.savefig('cifar10_6.png')
 ```
 
-![CIFAR-10 bird](../images/plots/2018-03-29-cifar10-6.png)
+![CIFAR-10 bird](/images/plots/2018-03-29-cifar10-6.png)
 
 *図 2.1. CIFAR-10 データセットの6枚目の鳥*
 
@@ -108,7 +108,7 @@ plt.plot(x_train_std[idx,:,:,0].flatten(),
 plt.savefig('cifar10_image_rgb.png')
 ```
 
-![CIFAR-10 bird](../images/plots/2018-03-29-cifar10-6-rgb.png)
+![CIFAR-10 bird](/images/plots/2018-03-29-cifar10-6-rgb.png)
 
 *図 2.2. 正規化前後における緑、青成分の分布*
 
@@ -162,7 +162,7 @@ plt.savefig('cifar10_std.png')
 正規化により緑が抑えられたことにより、他の赤青成分が相対的に目立つようになったため
 と思われる。
 
-![CIFAR-10 Scaled](../images/plots/2018-03-29-cifar10-scaled.png)
+![CIFAR-10 Scaled](/images/plots/2018-03-29-cifar10-scaled.png)
 
 *図 2.3. CIFAR-10画像の正規化前後比較*
 
@@ -356,7 +356,7 @@ for i in range(0, 16):
 plt.savefig('cifar10_pcaw.png')
 ```
 
-![CIFAR-10 PCA Whitening](../images/plots/2018-03-29-cifar10-pcaw.png)
+![CIFAR-10 PCA Whitening](/images/plots/2018-03-29-cifar10-pcaw.png)
 
 *図 3.1. CIFAR-10画像のPCA白色化*
 
@@ -426,7 +426,7 @@ for i in range(0, 16):
 plt.savefig('cifar10_zcaw.png')
 ```
 
-![CIFAR-10 ZCA Whitening](../images/plots/2018-03-29-cifar10-zcaw.png)
+![CIFAR-10 ZCA Whitening](/images/plots/2018-03-29-cifar10-zcaw.png)
 
 *図 3.2. CIFAR-10画像のZCA白色化*
 
@@ -485,7 +485,7 @@ plt.savefig('cifar10_image_rgb2.png')
 PCA白色化(左下)、ZCA白色化(右下)ではそれが見られなくなっている。
 白色化によって成分間の相関を除去できたといえそうだ。
 
-![CIFAR-10 bird RGB分布](../images/plots/2018-03-29-cifar10-6-rgb2.png)
+![CIFAR-10 bird RGB分布](/images/plots/2018-03-29-cifar10-6-rgb2.png)
 
 *図 3.3. CIFAR-10 鳥画像のRGB分布比較*
 
