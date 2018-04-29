@@ -5,7 +5,7 @@ categories: ai
 ---
 
 前回は
-[Keras+CNNでCIFAR-10の画像分類](ai/2018/03/25/cifer10-cnn1.html) をしてみたが、
+[Keras+CNNでCIFAR-10の画像分類](/ai/2018/03/25/cifer10-cnn1.html) をしてみたが、
 学習後のクラス判別精度が 71 % といまいちだった。
 
 この精度を上げるため、データの前処理を勉強してみる。
@@ -306,7 +306,7 @@ $$
 P = D^{-1/2} \ E^{\mathrm{T}}
 $$
 
-PCA 分析については次回に譲る。
+PCA 分析についてはまた今度ということにする。
 
 PCAの実装は次のようになった。
 
@@ -315,6 +315,8 @@ class PCAWhitening:
   def __init__(self, epsilon=1E-6):
     self.epsilon = epsilon
     self.mean = None
+    self.eigenvalue = None
+    self.eigenvector = None
     self.pca = None
   
   def fit(self, x):
@@ -323,6 +325,8 @@ class PCAWhitening:
     cov = np.dot(x_.T, x_) / x_.shape[0]
     E, D, _ = np.linalg.svd(cov)
     D = np.sqrt(D) + self.epsilon
+    self.eigenvalue = D
+    self.eigenvector = E
     self.pca = np.dot(np.diag(1. / D), E.T)
     return self
             
@@ -331,16 +335,26 @@ class PCAWhitening:
     return np.dot(x_, self.pca.T)
 ```
 
-使ってみる。
+固有値、固有ベクトルの計算にはSVDのライブラリを使った。
+参考サイトのまねである。
+
+SVD(Singular value decomposition)は特異値分解といい、
+行列の対角化を行うところや、次元数削減のために利用する点がPCA分析と似ている。
+
+ともかく、上記の $ E $、$ D $ を求める計算では対角化を行うため、
+SVDのライブラリが割とそのまま使える模様。
+
+作った `PCAWhitening` を以下のようにして使う。
+
+少し悩んだが、一枚の画像の全ピクセルのRGBを1列の展開し、
+特徴量として渡してやるのが正解のようだ。
 
 ```
-x_pcaw = np.zeros(x_train.shape)
-for i in range(0, x_train.shape[0]):
-  x_shape = x_train.shape
-  x = x_train[i,:,:,:].reshape(x_shape[1] * x_shape[2], x_shape[3])
-  zcaw = PCAWhitening().fit(x)
-  x_ = zcaw.transform(x)
-  x_pcaw[i,:,:,:] = x_.reshape(x_shape[1:])
+x_pcaw = x_train.reshape(x_train.shape[0], -1)
+print('x_pcaw.shape=' + str(x_pcaw.shape))
+# x_pcaw.shape(50000, 3072)
+pcaw = PCAWhitening().fit(x_pcaw)
+x_pcaw = pcaw.transform(x_pcaw).reshape(x_train.shape)
 
 plt.clf()
 for i in range(0, 16):
@@ -356,10 +370,70 @@ for i in range(0, 16):
 plt.savefig('cifar10_pcaw.png')
 ```
 
+出力は図3.1のようになった。
+左右に隣接する画像が2枚ずつペアで、左側が元画像、右側がPCA白色化した結果。
+
+もはやなんだかわからないが、PCA白色化というのはそういうものらしい。
+本によると「自然画像は一般に低い周波数成分ほど値が大きい特徴があり、PCA白色化はこれをキャンセルする」とのこと。
+
 ![CIFAR-10 PCA Whitening](/images/plots/2018-03-29-cifar10-pcaw.png)
 
 *図 3.1. CIFAR-10画像のPCA白色化*
 
+フィルタをプロットしてみる。
+
+```
+print('pcaw.pca.shape=' + str(pcaw.pca.shape))
+# pcaw.pca.shape=(3072, 3072)
+img = pcaw.pca
+vmin = np.min(img, axis=0)
+vmax = np.max(img, axis=0)
+img = (img - vmin) / (vmax - vmin)
+
+plt.clf()
+for i in range(0, 24):
+  plt.subplot(4, 6, i+1)
+  fig = plt.imshow(img[i*128,:].reshape(32, 32, 3))
+  fig.axes.get_xaxis().set_visible(False)
+  fig.axes.get_yaxis().set_visible(False)
+
+plt.savefig('cifar10-pca-filter.png')
+```
+
+
+なんか細かくウニャッとしている。
+期待していてものと違うものがでている気がしないでもないが、今回はこれでいいことにする。
+
+細かいウネウネが高周波成分を強調する役割をしていると考えられる。
+
+![CIFAR-10 PCA Filter](/images/plots/2018-03-29-cifar10-pcaw-filter.png)
+
+*図3.2. CIFAR-10画像のPCA白色化フィルタ*
+
+あと、少しPCA分析(主成分分析)もしてみる。
+
+PCA白色化の処理の途中で、固有ベクトル、固有値が計算されている。
+固有値は大きい順に並んでいて、対応する固有ベクトルの寄与率がわかる。
+
+せっかくだから寄与率を計算してみる。
+
+```
+explained_variance_ratio = pcaw.eigenvalue / np.sum(pcaw.eigenvalue)
+explained_variance = np.cumsum(explained_variance_ratio)
+
+plt.clf()
+plt.plot(np.arange(1, explained_variance.shape[0]+1, 1.0), explained_variance)
+plt.savefig('cifar10-pca-explained_variance.png')
+
+print('explained_variance[1536]=' + str(explained_variance[1536]))
+# explained_variance[1536]=0.94648
+```
+
+![CIFAR-10 PCA Explained variance](/images/plots/2018-03-29-cifar10-pca-explained-variance.png)
+
+*図 3.3. CIFAR-10画像のPCA分析 主成分の寄与率*
+
+全体の半分のデータ数があれば、データの特徴を95%くらい抑えられるようだ。
 
 #### ZCA 白色化
 
@@ -378,7 +452,7 @@ $$
 P = E \ D^{-1/2} \ E^{\mathrm{T}}
 $$
 
-ZCAの実装は以下のようになった。
+ZCAの実装はほぼPCAと同じで、以下のようになった。
 
 ```
 class ZCAWhitening:
@@ -404,13 +478,9 @@ class ZCAWhitening:
 使ってみる。
 
 ```
-x_zcaw = np.zeros(x_train.shape)
-for i in range(0, 32):
-  x_shape = x_train.shape
-  x = x_train[i,:,:,:].reshape(x_shape[1] * x_shape[2], x_shape[3])
-  zcaw = ZCAWhitening().fit(x)
-  x_ = zcaw.transform(x)
-  x_zcaw[i,:,:,:] = x_.reshape(x_shape[1:])
+x_zcaw = x_train.reshape(x_train.shape[0], -1)
+zcaw = ZCAWhitening().fit(x_zcaw)
+x_zcaw = zcaw.transform(x_zcaw).reshape(x_train.shape)
 
 plt.clf()
 for i in range(0, 16):
@@ -426,10 +496,46 @@ for i in range(0, 16):
 plt.savefig('cifar10_zcaw.png')
 ```
 
+出力は図3.4のようになった。
+PCA白色化と違い、これは何が起きているのか見て理解できそうだ。輪郭が強調されている。
+
 ![CIFAR-10 ZCA Whitening](/images/plots/2018-03-29-cifar10-zcaw.png)
 
-*図 3.2. CIFAR-10画像のZCA白色化*
+*図 3.4. CIFAR-10画像のZCA白色化*
 
+ZCA白色の変換を可視化してみると、
+各ピクセル、各色成分について隣との差分を強調するフィルタになっている様子が見られるらしい。
+
+```
+print('zcaw.zca.shape=' + str(zcaw.zca.shape))
+# zcaw.zca.shape=(3072, 3072)
+img = zcaw.zca
+vmin = np.min(img, axis=0)
+vmax = np.max(img, axis=0)
+img = (img - vmin) / (vmax - vmin)
+
+plt.clf()
+for i in range(0, 24):
+  plt.subplot(4, 6, i+1)
+  fig = plt.imshow(img[i,:].reshape(32, 32, 3)[0:8,0:8,0:3])
+  fig.axes.get_xaxis().set_visible(False)
+  fig.axes.get_yaxis().set_visible(False)
+
+plt.savefig('cifar10-zca-filter.png')
+```
+
+図 3.5がそれである。
+フィルタ3枚ずつが組になり、同じ位置に赤、緑、青の目が現れている。
+次の3枚では隣のピクセルに目が現われていて、やはり赤、緑、青の組合せである。
+
+また、目に隣接するピクセルは目の色の補色になっている。
+これが各ピクセル、各色成分について隣との差分を強調するフィルタの正体のようだ。
+
+![CIFAR-10 ZCA Filter](/images/plots/2018-03-29-cifar10-zca-filter.png)
+
+*図 3.5. CIFAR-10画像のZCA白色化フィルタ*
+
+なお、フィルタを見易くするために、左上8x8だけをプロットした。
 
 #### 計算時のテクニック
 
@@ -481,13 +587,14 @@ plot_rgb(x_zcaw)
 plt.savefig('cifar10_image_rgb2.png')
 ```
 
+出力は図3.6。
 正規化(右上)では斜め方向に伸びていることからRGBの相関があることが確認できたが、
 PCA白色化(左下)、ZCA白色化(右下)ではそれが見られなくなっている。
 白色化によって成分間の相関を除去できたといえそうだ。
 
 ![CIFAR-10 bird RGB分布](/images/plots/2018-03-29-cifar10-6-rgb2.png)
 
-*図 3.3. CIFAR-10 鳥画像のRGB分布比較*
+*図 3.6. CIFAR-10 鳥画像のRGB分布比較*
 
 ### 参考
 
