@@ -350,6 +350,11 @@ SVDのライブラリが割とそのまま使える模様。
 特徴量として渡してやるのが正解のようだ。
 
 ```
+def normalizeImage2(x, epsilon=1E-6):
+  vmin = np.min(x)
+  vmax = np.max(x)
+  return (x - vmin) / (vmax - vmin + epsilon)
+
 x_pcaw = x_train.reshape(x_train.shape[0], -1)
 print('x_pcaw.shape=' + str(x_pcaw.shape))
 # x_pcaw.shape(50000, 3072)
@@ -363,7 +368,7 @@ for i in range(0, 16):
   fig.axes.get_xaxis().set_visible(False)
   fig.axes.get_yaxis().set_visible(False)
   plt.subplot(4, 8, i*2+2)
-  fig = plt.imshow(normalizeImage(x_pcaw[i,:,:,:]))
+  fig = plt.imshow(normalizeImage2(x_pcaw[i,:,:,:]))
   fig.axes.get_xaxis().set_visible(False)
   fig.axes.get_yaxis().set_visible(False)
 
@@ -374,6 +379,8 @@ plt.savefig('cifar10_pcaw.png')
 左右に隣接する画像が2枚ずつペアで、左側が元画像、右側がPCA白色化した結果。
 
 もはやなんだかわからないが、PCA白色化というのはそういうものらしい。
+左上が低周波成分、右下が高周波成分と考えていいのだろうか？
+
 本によると「自然画像は一般に低い周波数成分ほど値が大きい特徴があり、PCA白色化はこれをキャンセルする」とのこと。
 
 ![CIFAR-10 PCA Whitening](/images/plots/2018-03-29-cifar10-pcaw.png)
@@ -383,32 +390,34 @@ plt.savefig('cifar10_pcaw.png')
 フィルタをプロットしてみる。
 
 ```
-print('pcaw.pca.shape=' + str(pcaw.pca.shape))
-# pcaw.pca.shape=(3072, 3072)
-img = pcaw.pca
-vmin = np.min(img, axis=0)
-vmax = np.max(img, axis=0)
-img = (img - vmin) / (vmax - vmin)
-
 plt.clf()
-for i in range(0, 24):
-  plt.subplot(4, 6, i+1)
-  fig = plt.imshow(img[i*128,:].reshape(32, 32, 3))
+for i in range(0, 96):
+  plt.subplot(8, 12, i+1)
+  fig = plt.imshow(normalizeImage2(img[i,:]).reshape(32, 32, 3))
   fig.axes.get_xaxis().set_visible(False)
   fig.axes.get_yaxis().set_visible(False)
 
 plt.savefig('cifar10-pca-filter.png')
+
+plt.clf()
+for i in range(0, 96):
+  plt.subplot(8, 12, i+1)
+  fig = plt.imshow(normalizeImage2(img[i*32,:]).reshape(32, 32, 3))
+  fig.axes.get_xaxis().set_visible(False)
+  fig.axes.get_yaxis().set_visible(False)
+
+plt.savefig('cifar10-pca-filter-2.png')
 ```
 
-
-なんか細かくウニャッとしている。
-期待していてものと違うものがでている気がしないでもないが、今回はこれでいいことにする。
-
-細かいウネウネが高周波成分を強調する役割をしていると考えられる。
+低周波成分を強調するフィルタから始まり、段々と高周波に移っていく3,072枚のフィルタが得られた。
 
 ![CIFAR-10 PCA Filter](/images/plots/2018-03-29-cifar10-pcaw-filter.png)
 
-*図3.2. CIFAR-10画像のPCA白色化フィルタ*
+*図3.2a. CIFAR-10画像のPCA白色化フィルタ 1-96枚目*
+
+![CIFAR-10 PCA Filter](/images/plots/2018-03-29-cifar10-pcaw-filter-2.png)
+
+*図3.2b. CIFAR-10画像のPCA白色化フィルタ 1-3072枚目まで32枚飛ばし*
 
 あと、少しPCA分析(主成分分析)もしてみる。
 
