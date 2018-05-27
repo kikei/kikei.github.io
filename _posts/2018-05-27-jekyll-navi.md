@@ -17,6 +17,7 @@ GitHub Page+Jekyllで運用しているブログに対し、前回の記事、�
 
 _layouts/post.html に以下を追加。
 
+{% raw %}
 ```
 <div class="post-navigation">
   <div class="post-navigation-prev">
@@ -31,6 +32,7 @@ _layouts/post.html に以下を追加。
   </div>
 </div>
 ```
+{% endraw %}
 
 _sass/_layout.scss に以下を追加。
 
@@ -54,3 +56,4 @@ _sass/_layout.scss に以下を追加。
 ### 2. 参考
 
 - [Jekyll – how to link to next/previous post on your blog - David Elbe](https://david.elbe.me/jekyll/2015/06/20/how-to-link-to-next-and-previous-post-with-jekyll.html)
+- [Writing the endraw tag in Jekyll code blocks - SLaks.Blog](https://blog.slaks.net/2013-06-10/jekyll-endraw-in-code/)
