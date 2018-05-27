@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GitHub Page+JekyllにMathJaxを導入した"
-categories: blot
+categories: blog
 ---
 
 ### テスト
