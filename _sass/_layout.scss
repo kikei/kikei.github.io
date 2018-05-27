@@ -240,3 +240,18 @@
         }
     }
 }
+
+.post-navigation {
+    display: flex;
+    justify-content: space-between;
+    
+    .post-navigation-prev {
+	width: 50%;
+	text-align: left;
+    }
+    
+    .post-navigation-next {
+	width: 50%;
+	text-align: right;
+    }
+}
