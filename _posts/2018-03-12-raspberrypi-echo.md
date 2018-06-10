@@ -351,7 +351,7 @@ $ sudo vi /etc/pulse/system.pa
 $ tail -9 /etc/pulse/system.pa
 
 ## Load driver modules for Bluetooth hardware
-.ifexists module-blue-tooth-policy.so
+.ifexists module-bluetooth-policy.so
 load-module module-bluetooth-policy
 .endif
 
@@ -387,6 +387,12 @@ $ tail -10 /etc/dbus-1/system.d/pulseaudio-system.conf
   </policy>
 
 </busconfig>
+```
+
+`pi` ユーザーを `pulse-audio` グループに追加する。
+
+```
+$ sudo usermod -a -G pulse-audio pi
 ```
 
 最後にローカルのWAVを再生してみる。
@@ -669,7 +675,7 @@ return {
 18時になるとスイッチがリセットされるのでガードが解除され、
 次回のセンサー反応時にはまた、ミクタグが発火することになる。
 
-### おわりに
+### 5. おわりに
 
 ここまでで機能としては十分だが、実のところ残念ながらミクさんはほとんどしゃべってくれない。
 MESH Hub と Echo Dot の Bluetooth 接続がよく切れてしまうためと思われる。
@@ -678,3 +684,8 @@ MESH Hub と Echo Dot の Bluetooth 接続がよく切れてしまうためと�
 また改良ができたらこのサイトで取り上げたい。
 
 なお、ミクタグのアイコンは、普段使いのFedora上でUnityを実行し、[MMD4Mecanim (Beta)](http://stereoarts.jp/)で[16bit式ミク](http://www.nicovideo.jp/watch/sm10791865)をFBX形式に変換して作った。
+
+### 6. 参考
+
+- [RaspberryPi Bluetoothスピーカーで音を出す方法 | トライフィールズ](https://www.trifields.jp/how-to-sound-using-bluetooth-speaker-1981]
+
