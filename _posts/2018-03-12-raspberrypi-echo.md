@@ -360,7 +360,7 @@ load-module module-bluetooth-discover
 .endif
 ```
 
-これは必須かもしれない。
+次は必須である。
 
 世の記事では `/etc/dbus-1/system.d/pulseaudio-bluetooth.conf` に書いているようだが、面倒なので `/etc/dbus-1/system.d/bluetooth.conf` に追記した。`pulse` ユーザが `org.bruez` に接続することを許可する、そう言っている。
 
@@ -373,7 +373,15 @@ $ tail -4 /etc/dbus-1/system.d/bluetooth.conf
 </busconfig>
 ```
 
-これも必須かわからない。
+注意として、以下の `deny` よりも先に書く必要があるようだ。
+
+```
+  <policy context="default">
+    <deny send_destination="org.bluez"/>
+  </policy>
+```
+
+次も必要と思うが、真実は定かではない。
 
 ```
 $ sudo vi /etc/dbus-1/system.d/pulseaudio-system.conf
@@ -389,10 +397,10 @@ $ tail -10 /etc/dbus-1/system.d/pulseaudio-system.conf
 </busconfig>
 ```
 
-`pi` ユーザーを `pulse-audio` グループに追加する。
+`pi` ユーザーを `pulse-access` グループに追加する。
 
 ```
-$ sudo usermod -a -G pulse-audio pi
+$ sudo usermod -a -G pulse-access pi
 ```
 
 最後にローカルのWAVを再生してみる。

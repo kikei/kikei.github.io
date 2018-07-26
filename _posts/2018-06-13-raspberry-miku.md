@@ -46,7 +46,7 @@ uWSGI を使うとあっという間に Web サーバが立てられる模様。
 まずは uWSGI をインストールする。
 
 ```
-$ pip install uswgi
+$ pip install uwsgi
 ```
 
 バイナリが勝手に `~/.local/bin` 以下に置かれた。まあいいか。
@@ -201,12 +201,12 @@ class BluetoothCtl():
         '# $'
       ])
       if result == 1:
-        key = p.match.group(1)
-        value = p.match.group(2)
+        key = p.match.group(1).decode()
+        value = p.match.group(2).decode()
         info['UUID ' + key.strip()] = value.strip()
       elif result == 2:
-        key = p.match.group(1)
-        value = p.match.group(2)
+        key = p.match.group(1).decode()
+        value = p.match.group(2).decode()
         info[key.strip()] = value.strip()
       elif result == 3:
         break
@@ -235,7 +235,7 @@ def jtalk(outwav, speech):
     '-ow', outwav
   ]
   p = subprocess.Popen(command, stdin=subprocess.PIPE)
-  p.stdin.write(speech)
+  p.stdin.write(speech.encode('utf-8'))
   p.stdin.close()
   p.wait()
   return True
@@ -273,7 +273,7 @@ def ensureConnect():
 
 @app.route('/say', methods=['POST'])
 def handleSay():
-  speech = request.form['speech'].encode('utf-8')
+  speech = request.form['speech']
   reconnected = ensureConnect()
   if reconnected:
     say(reconnected)
@@ -322,15 +322,15 @@ H02 = 人感(感知しなくなったら, 30秒)
 H03 = 人感(感知したら, 3秒)
 P01 = Phillips hue(消灯する, Hue ambiance lamp 1)
 P02 = Phillips hue(点灯する, Hue ambiance lamp 1, 電球色, 5)
-P11 = Phillips hue(点灯する, Hue color lamp1 | Hue color lamp 2, Blue, 5)
-S01 = スイッチ(2)
+P11 = Phillips hue(点灯する, Hue color lamp1 | Hue color lamp 3, 青色, 5)
+S01 = スイッチ(選んで切替える, 2)
 M01 = ミク(しゃべる, おかえり)
 M02 = ミク(しゃべる, ミク)
-T01 = タイマー(オン, 指定のタイミングで, 18:00, 繰り返さない)
+T01 = タイマー(オン, 指定のタイミングで, 18:00, 月 | 火 | 水 | 木 | 金)
 T02 = タイマー(指定の時間だったら, 00:00-23:59)
 T03 = タイマー(待つ, 10秒)
 T04 = 一定の間隔で(オン, 10分)
-I01 = IFTTT(motion1)
+I01 = IFTTT(motion1, {{DateAndTime}})
 ```
 
 謎言語の文法の意味:
@@ -378,7 +378,13 @@ Dialogflow を使えば簡単に NLP アプリを作れることは知ってい�
 
 5 は Gatebox みたいに小さいのよりは、プロジェクターで等身大くらいにして映したい。
 
-### 5. 参考
+### 5. ソースコード
+
+2018/7/27 GitHub にも公開してみました。
+
+[kikei / miku-server](https://github.com/kikei/miku-server)
+
+### 6. 参考
 
 - [Quickstart for Python/WSGI applications - uWSGI 2.0 documentation](https://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html)
 - [Systemd - uWSGI 2.0 documentation](https://uwsgi-docs.readthedocs.io/en/latest/Systemd.html#one-service-per-app-in-systemd)
