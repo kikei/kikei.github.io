@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "React Contextを少し使ってみた"
-categories: ai
+categories: web
 ---
 
 React 16.3 より React Context という機能が正式版でリリースされたらしいので
@@ -255,9 +255,12 @@ class Counter extends Component {
 }
 ```
 
+Step 設定はアドバンスモードの時だけ表示される。(図6.1.)
+
 ![カウンター画面](/images/screenshots/2018-11-04-app-counter.png)
 
 *図6.1. カウンター画面*
+
 
 ### 7. メモリスト画面の作成
 
@@ -322,6 +325,8 @@ class Memo extends Component {
   }
 }
 ```
+
+「Clear All」ボタンはアドバンスモードの時だけ表示される。(図7.1.)
 
 ![メモリスト画面](/images/screenshots/2018-11-04-app-memo.png)
 
