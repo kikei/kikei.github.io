@@ -1,5 +1,6 @@
 ---
 layout: default
+comments: true
 ---
 
 <script type="text/x-mathjax-config">
@@ -29,6 +30,9 @@ MathJax.Hub.Config({
   </div>
 
 </article>
+
+{% include disqus_comments.html %}
+
 <div class="post-navigation">
   <div class="post-navigation-prev">
     {% if page.previous.url %}
