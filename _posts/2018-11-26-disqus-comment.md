@@ -44,6 +44,7 @@ E-mail アドレスとブログの URL があればいける。
 
 中身は以下:
 
+{% raw %}
 ```html
 {% if page.comments != false %}
 
@@ -67,8 +68,11 @@ E-mail アドレスとブログの URL があればいける。
 
 {% endif %}
 ```
+{% endraw %}
 
+{% raw %}
 一行目 `{% if page.comments != false %}` とした。
+{% endraw %}
 
 全ての記事でコメントフォームをデフォルト表示するため、
 明示的に `false` にしない限り表示、という条件式にした。
