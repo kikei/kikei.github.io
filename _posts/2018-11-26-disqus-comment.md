@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "GitHub Pages+JekyllにDisqusコメントフォームを追加した。"
+title:  "GitHub Pages+JekyllにDisqusコメントフォームを追加した"
 categories: blog
 ---
 
