@@ -1,5 +1,6 @@
 {% if page.comments != false %}
 
+
 <script src="https://isso.xaxxi.net/js/embed.min.js"
      data-isso="https://isso.xaxxi.net/" 
      data-isso-css="true" 
@@ -12,7 +13,9 @@
      data-isso-reveal-on-click="5"
      data-isso-vote="true">
 </script>
-<section id="isso-thread" data-isso-id="{{ page.url | absolute_url }}" data-title="{{ page.title }}">
-</section>
+
+<div class="post-comments">
+  <section id="isso-thread" data-isso-id="{{ page.url | absolute_url }}" data-title="{{ page.title }}"></section>
+</div>
 
 {% endif %}
