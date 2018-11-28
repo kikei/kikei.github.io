@@ -1,0 +1,18 @@
+{% if page.comments != false %}
+
+<script src="https://isso.xaxxi.net/js/embed.min.js"
+     data-isso="https://isso.xaxxi.net/" 
+     data-isso-css="true" 
+     data-isso-lang="en"
+     data-isso-reply-to-self="true"
+     data-isso-require-author="true"
+     data-isso-require-email="false"
+     data-isso-max-comments-top="20"
+     data-isso-max-comments-nested="5"
+     data-isso-reveal-on-click="5"
+     data-isso-vote="true">
+</script>
+<section id="isso-thread" data-isso-id="{{ page.url | absolute_url }}" data-title="{{ page.title }}">
+</section>
+
+{% endif %}
