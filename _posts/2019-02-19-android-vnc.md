@@ -58,7 +58,47 @@ enp3s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 - Wi-Fi接続 192.168.0.9
 - 解像度 2560x1440
 
-### 3. VNC サーバーの設定
+### 3. ファイヤーウォールの設定
+
+ではさっそく VNC サーバーの構築を…といきたいところであるが、
+先にファイヤーウォールで VNC 接続のポートを開放しておいてあげる。
+
+まずは有効になっているゾーン名を調べる:
+
+```sh
+% sudo firewall-cmd --get-active-zone
+public
+  interfaces: enp3s0 wlp4s0
+```
+
+調べてわかった `public` ゾーンへ VNC を登録する。
+サービス名は `vnc-server` として始めから定義されており、
+ポート 5900-5903 が設定されている。以下はそれを定義しているファイルの中身:
+
+```sh
+% cat /lib/firewalld/services/vnc-server.xml 
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>Virtual Network Computing Server (VNC)</short>
+  <description>A VNC server provides an external accessible X session. Enable this option if you plan to provide a VNC server with direct access. The access will be possible for displays :0 to :3. If you plan to provide access with SSH, do not open this option and use the via option of the VNC viewer.</description>
+  <port protocol="tcp" port="5900-5903"/>
+</service>
+```
+
+`vnc-server` サービスを常に利用可能にする:
+
+```sh
+% sudo firewall-cmd --permanent --add-service=vnc-server
+success
+```
+
+`firewalld` に設定を反映する:
+
+```sh
+% sudo firewall-cmd --reload
+```
+
+### 4. VNC サーバーの設定
 
 VNC サーバーは [TigerVNC](https://tigervnc.org/) を使った。
 近道っぽかったからで、特に選んだ理由は無い。
@@ -103,7 +143,7 @@ Log file is /home/fujii/.vnc/localhost.localdomain:1.log
 
 ここまででもう、Android の VNC クライアントアプリから接続できるようになっている。
 
-### 4. VNC クライアントからの接続
+### 5. VNC クライアントからの接続
 
 VNC Viewer というアプリを使った。これも定番アプリのようだ。
 
@@ -138,7 +178,7 @@ exec /usr/bin/gnome-session
 /usr/bin/xterm -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
 ```
 
-### 5. キーボードの共有
+### 6. キーボードの共有
 
 めでたくスマートフォン上に PC の画面が表示されたわけだが、わりと使いにくい。
 
@@ -146,7 +186,7 @@ exec /usr/bin/gnome-session
 
 これでは使いにくいが、せめてキーボード入力だけならば簡単に有効化できる。
 
-[x2vnc 1.7.2](http://fredrik.hubbe.net/x2vnc.html) を使う。
+[x2vnc](http://fredrik.hubbe.net/x2vnc.html) を使う。
 
 Fedora の DNF で検索したところではヒットしなかったので、ソースからビルドした。
 
@@ -191,7 +231,7 @@ Xinerama detected, x2vnc will use screen 1.
 
 スマートフォン上ではタッチによるカーソル操作が効くので、PC 側のマウスは特に必要無い。
 
-### 6. サービス化
+### 7. サービス化
 
 VNC が結構使えそうなことがわかったので、
 サービスにして PC 起動時に自動的に VNC サーバーが立ち上がるようにする。
@@ -272,7 +312,7 @@ WantedBy=multi-user.target
 # systemctl enable x2vnc@:1.service
 ```
 
-### 7. まとめ
+### 8. まとめ
 
 スマホにターミナルが出ていると楽しい。
 音楽を聴きたいときはターミナルから起動してやればいい。
@@ -282,9 +322,10 @@ WantedBy=multi-user.target
 
 スマホスタンドを買っていい感じにしたい。
 
-### 8. 参考情報
+### 9. 参考情報
 
 - [TigerVNC](https://tigervnc.org/)
 - [TigerVNC \- ArchWiki](https://wiki.archlinux.org/index.php/TigerVNC)
-- [x2vnc 1\.7\.2](http://fredrik.hubbe.net/x2vnc.html)
+- [x2vnc](http://fredrik.hubbe.net/x2vnc.html)
 - [systemd\.unit](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#)
+- [How to install and Configure VNC \(TigerVNC\) server in CentOS / RHEL 7 – The Geek Diary](https://www.thegeekdiary.com/how-to-install-and-configure-vnc-tigervnc-server-in-centos-rhel-7/)
