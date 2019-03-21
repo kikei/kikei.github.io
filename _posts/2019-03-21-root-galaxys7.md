@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Galaxy s7のrootを取得した"
+title:  "Galaxy s7 Androidスマートフォンのroot権限取得"
 categories: smartphone
 ---
 
@@ -36,6 +36,10 @@ Magisk は Android の root 取得界隈の最新技術である。
 
 この記事は一応 [SynergyでLinuxからAndroidへマウス共有できるまで](https://kikei.github.io) の続きである。
 ただし、本稿では Synergy 関連はあまり触れない。
+
+1. [Synergy サーバーの起動](https://kikei.github.io/smartphone/2019/03/21/root-galaxys7.html)
+2. この記事: [Synergy クライアントの起動 Galaxy s7 権限ルート取得編](https://kikei.github.io/smartphone/2019/03/21/root-galaxys7.html)
+3. Synergy クライアントの起動 SELinux編
 
 #### 念のための注記:
 
