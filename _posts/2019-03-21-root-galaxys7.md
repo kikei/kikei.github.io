@@ -59,7 +59,7 @@ Magisk は Android の root 取得界隈の最新技術である。
 
 今回 Galaxy s7 の各バージョンは以下のようになっていた。
 
-![Versions](../images/photos/2019-03-21-versions.jpg)
+![Versions](/images/photos/2019-03-21-versions.jpg)
 
 #### ソフトウェア:
 
@@ -138,7 +138,7 @@ Odin3 を起動し、先程取得したファームウェアのパスを Odin3 �
 どの枠にどのファイルを指定すればいいかについても、ファイル名を見れば明らかである。
 全て指定すれば以下の図のようになる:
 
-![Odin3 x Galaxy Stock ROM](../images/photos/2019-03-21-odin1.jpg**
+![Odin3 x Galaxy Stock ROM](/images/photos/2019-03-21-odin1.jpg**
 
 Start ボタンはまだ押さない。押しても何も起きない。
 端末をダウンロードモードで接続してから押す。
@@ -153,7 +153,7 @@ Start ボタンはまだ押さない。押しても何も起きない。
 うまくできれば以下のような画面が出て起動するので、さらに音量アップキーを押せば
 ダウンロードモードになる。
 
-![Download mode](../images/photos/2019-03-21-downloadmode.jpg)
+![Download mode](/images/photos/2019-03-21-downloadmode.jpg)
 
 この操作はこの後も幾度となく実行することになるので、
 「ダウンロードモードの構え」と呼ぶことにする。
@@ -170,7 +170,7 @@ Odin3 で Start ボタンを押す。
 
 少しだけ時間がかかるので完了するまでまったり待機すればよい。
 
-![Downloading...](../images/photos/2019-03-21-downloadmode2.jpg)
+![Downloading...](/images/photos/2019-03-21-downloadmode2.jpg)
 
 完了するとそのままの画面で止まるけれどそれで問題無い。
 次の操作までこのまま放置しておく。
@@ -190,7 +190,7 @@ Odin3 の Reset ボタンを押し、各種指定を消去する。
 
 今回は twrp-3.2.3-0-herolte.img.tar を AP に指定した。
 
-![Odin3 x TWRP](../images/photos/2019-03-21-odin2.jpg)
+![Odin3 x TWRP](/images/photos/2019-03-21-odin2.jpg)
 
 #### 3.2. 端末をダウンロードモードで起動
 
@@ -224,11 +224,11 @@ Odin3 で Start ボタンをクリックする。
 
 ここでボーっとやっていると端末初期化が実行されてしまうので注意。
 
-![TWRP startup](../images/photos/2019-03-21-twrp1.jpg)
+![TWRP startup](/images/photos/2019-03-21-twrp1.jpg)
 
 水色のバーを右にスワイプすればメニュー画面に進む。
 
-![TWRP menu](../images/photos/2019-03-21-twrp2.jpg)
+![TWRP menu](/images/photos/2019-03-21-twrp2.jpg)
 
 #### 4.3. データフォーマット
 
@@ -241,7 +241,7 @@ Odin3 で Start ボタンをクリックする。
 以下の画面が出てフォーマットが実行される。
 `Unable to mount` 等いろいろエラーが出ているが大丈夫そうだったと記憶している。
 
-![TWRP wipe](../images/photos/2019-03-21-twrp4.jpg)
+![TWRP wipe](/images/photos/2019-03-21-twrp4.jpg)
 
 - 戻るボタンを使ってメニュー画面に戻る。
 - Reboot を選択。
@@ -281,13 +281,13 @@ PC から ADB でファイルを転送する。
 
 以下は Magisk フラッシュ時の思い出:
 
-![TWRP flash](../images/photos/2019-03-21-twrp5.jpg)
+![TWRP flash](/images/photos/2019-03-21-twrp5.jpg)
 
 ### 5. Magisk Manager のインストール
 
 TWRP からでもいいし、電源キーからでもいいので、端末を普通に起動すると、端末の初期化が開始する。今回は英語版で起動した。微妙にうまくいっていないときは中国語で起動したりもしていた気がする。
 
-![TWRP flash](../images/photos/2019-03-21-boot.jpg)
+![TWRP flash](/images/photos/2019-03-21-boot.jpg)
 
 さて、XDA に書かれている手順によると、これで起動が完了すると Magisk アプリが表示されるとあるのだが、私の環境ではどうしてもうまくいかなかった。なぜかアイコンが出ない。
 それが成功なのか失敗なのかはわからない。
