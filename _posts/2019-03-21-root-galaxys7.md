@@ -308,7 +308,41 @@ Magisk Manager アプリを起動すると、Magisk のインストール等も�
 
 うまくいっていれば例えば adb で接続して `su` すると root 権限を許可するか選ぶダイアログが表示される。そこで許可をして実際に root になれたならば、目的は達したことになる。
 
-### 6. 参考
+### 6. Synergy アプリへの root 権限許可
+
+ここからは端末の root 権限取得とは関係無い。
+だが私の目的は Synergy アプリを使えるようにすることだったので、ここでアプリを起動してroot 権限取得を許可してみる。
+
+アプリは Google Play で公開されていないので、公式の GitHub より拾ってくる:
+
+[symless/synergy\-android\-7: Synergy for Android client with support for android 7\+](https://github.com/symless/synergy-android-7)
+
+`adb` を使ってインストール:
+
+```sh
+$ adb devices
+List of devices attached
+988633454855353147	device
+
+$ adb install -g -t synergy.apk
+```
+
+スマートフォン端末上に青色と黄緑色の輪っかのアイコンが出現したら、それが Synergy アプリである。
+
+Magisk の設定が成功していると、アプリケーションを起動したときに root 権限取得ダイアログが出てくる。
+ここで許可を選べば以後、Synergy アプリは root 権限を利用することができるようになる。
+
+![synergy android](/images/screenshots/2019-03-24-magiskmanager.png)
+
+これで root 権限取得は完了したわけだが、Synergy アプリを利用してマウス、キーボードの共有をするにはもう一枚の障壁がある。SELinux である。
+
+SELinux はシステム内のアクセス制御機能をする Linux 機能である。
+ポリシーという単位でアプリケーションからシステムへのアクセスを制御することができ、
+root 権限を取得したといても制御の対象である。いやむしろそれが主目的である。
+
+というわけで続きは SELinux 編で書く。
+
+### 7. 参考
 
 #### 各種ソフト入手元
 
