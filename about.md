@@ -19,9 +19,10 @@ permalink: /about/
 
 ### Sites
 - [雨中温泉](https://yu.xaxxi.net)
-- [Redmine](https://redmine.xaxxi.net)
-- [House](https://h.xaxxi.net)
-- [tiny tiny rss](http://tt-rss.xaxxi.net/index.php)
+- [aimai-db (private)](https://aimai.xaxxi.net)
+- [Redmine (private)](https://redmine.xaxxi.net)
+- [House (private)](https://h.xaxxi.net)
+- [tiny tiny rss (private)](http://tt-rss.xaxxi.net/index.php)
 - [古自棄](http://f.xaxxi.net)
 - [放置演算子](http://blog.xaxxi.net/)
 - [お電場](http://chu.xaxxi.net/)
