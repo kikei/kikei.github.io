@@ -17,20 +17,11 @@ permalink: /about/
 - [Hatena Antenna](http://a.hatena.ne.jp/botano/)
 - [Yahoo Pipes!](http://pipes.yahoo.com/pipes/person.info?guid=4ZPC5QKQTZNP7ZWRK7XV6OUJQA)
 
-### Application
-- [温泉地図](http://app.xaxxi.net/map/)
-- [Sound Room](http://app.xaxxi.net/sounds/listen.to)
-- [アンテナ](http://app.xaxxi.net/antenna/rss/)
-- [Multi Translator](http://app.xaxxi.net/translator/)
-- [Fortune Hut](http://app.xaxxi.net/fortune/html)
-- [tiny tiny rss](http://tt-rss.xaxxi.net/index.php)
-- [見える関数電卓](http://xaxxi.net/vo/accessory/calc/)
-- [Nico Jukebox](http://app.xaxxi.net/vo/mylist/akisakanakatana)
-- [SBITrader Wiki](https://153.122.23.142:8561/wiki/MyStartingPage)
-
 ### Sites
+- [雨中温泉](https://yu.xaxxi.net)
 - [Redmine](https://redmine.xaxxi.net)
 - [House](https://h.xaxxi.net)
+- [tiny tiny rss](http://tt-rss.xaxxi.net/index.php)
 - [古自棄](http://f.xaxxi.net)
 - [放置演算子](http://blog.xaxxi.net/)
 - [お電場](http://chu.xaxxi.net/)
@@ -41,11 +32,22 @@ permalink: /about/
 - [一言区域](http://ftf.dw.land.to/)
 
 ### Links
+- [Raindrop.io](https://raindrop.io/)
 - [Google Bookmarks](https://www.google.co.jp/bookmarks/)
 - [Google Calendar](https://calendar.google.com/calendar/render?hl=ja#main_7)
 - [Pocket](https://getpocket.com/a/queue/)
 - [IFTTT](https://ifttt.com/recipes)
 - [AWS](https://console.aws.amazon.com/console/home)
+
+### Application
+- [温泉地図](http://app.xaxxi.net/map/)
+- [Sound Room](http://app.xaxxi.net/sounds/listen.to)
+- [アンテナ](http://app.xaxxi.net/antenna/rss/)
+- [Multi Translator](http://app.xaxxi.net/translator/)
+- [Fortune Hut](http://app.xaxxi.net/fortune/html)
+- [見える関数電卓](http://xaxxi.net/vo/accessory/calc/)
+- [Nico Jukebox](http://app.xaxxi.net/vo/mylist/akisakanakatana)
+- [SBITrader Wiki](https://153.122.23.142:8561/wiki/MyStartingPage)
 
 ### Maps
  - [宮城/東北](http://www.google.co.jp/maps/ms?ie=UTF8&hl=ja&brcurrent=3,0x34674e0fd77f192f:0xf54275d47c665244,1&msa=0&msid=215293146285702380886.0004735b973ef89fa8f5a&ll=38.252471,140.85743&spn=0.163652,0.21492&z=12)
