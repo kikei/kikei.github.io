@@ -9,19 +9,22 @@ permalink: /about/
 
 以下も個人的なポータルリンク集です。
 
-### Routes
+### Personal
 - [GitHub](https://github.com/kikei)
+- [~~Lancers~~](https://www.lancers.jp/client/t-fg)
 - [Twitter](http://twitter.com/akisakanakatana)
-- [Delicious](https://delicious.com/botano)
-- [Tumblr](http://botano.tumblr.com/)
-- [Hatena Antenna](http://a.hatena.ne.jp/botano/)
-- [Yahoo Pipes!](http://pipes.yahoo.com/pipes/person.info?guid=4ZPC5QKQTZNP7ZWRK7XV6OUJQA)
+- [Kiite](https://kiite.jp/user/akisakanakatana)
+- [~~Delicious~~](https://delicious.com/botano)
+- [~~Tumblr~~](http://botano.tumblr.com/)
+- [~~Hatena Antenna~~](http://a.hatena.ne.jp/botano/)
+- [~~Yahoo Pipes!~~](http://pipes.yahoo.com/pipes/person.info?guid=4ZPC5QKQTZNP7ZWRK7XV6OUJQA)
 
 ### Sites
 - [雨中温泉](https://yu.xaxxi.net)
+- [湯花草子](https://yu-soushi.net/)
 - [aimai-db (private)](https://aimai.xaxxi.net)
 - [Redmine (private)](https://redmine.xaxxi.net)
-- [House (private)](https://h.xaxxi.net)
+- OwnCloud (private)
 - [tiny tiny rss (private)](http://tt-rss.xaxxi.net/index.php)
 - [古自棄](http://f.xaxxi.net)
 - [放置演算子](http://blog.xaxxi.net/)
@@ -32,23 +35,14 @@ permalink: /about/
 - [島](http://g4.xaxxi.net)
 - [一言区域](http://ftf.dw.land.to/)
 
-### Links
-- [Raindrop.io](https://raindrop.io/)
-- [Google Bookmarks](https://www.google.co.jp/bookmarks/)
-- [Google Calendar](https://calendar.google.com/calendar/render?hl=ja#main_7)
-- [Pocket](https://getpocket.com/a/queue/)
-- [IFTTT](https://ifttt.com/recipes)
-- [AWS](https://console.aws.amazon.com/console/home)
-
 ### Application
-- [温泉地図](http://app.xaxxi.net/map/)
-- [Sound Room](http://app.xaxxi.net/sounds/listen.to)
-- [アンテナ](http://app.xaxxi.net/antenna/rss/)
-- [Multi Translator](http://app.xaxxi.net/translator/)
+- [~~温泉地図~~](http://app.xaxxi.net/map/)
+- [~~Sound Room~~](http://app.xaxxi.net/sounds/listen.to)
+- [~~アンテナ~~](http://app.xaxxi.net/antenna/rss/)
+- [~~Multi Translator~~](http://app.xaxxi.net/translator/)
 - [Fortune Hut](http://app.xaxxi.net/fortune/html)
 - [見える関数電卓](http://xaxxi.net/vo/accessory/calc/)
 - [Nico Jukebox](http://app.xaxxi.net/vo/mylist/akisakanakatana)
-- [SBITrader Wiki](https://153.122.23.142:8561/wiki/MyStartingPage)
 
 ### Maps
  - [宮城/東北](http://www.google.co.jp/maps/ms?ie=UTF8&hl=ja&brcurrent=3,0x34674e0fd77f192f:0xf54275d47c665244,1&msa=0&msid=215293146285702380886.0004735b973ef89fa8f5a&ll=38.252471,140.85743&spn=0.163652,0.21492&z=12)
