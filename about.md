@@ -14,6 +14,7 @@ permalink: /about/
 - [~~Lancers~~](https://www.lancers.jp/client/t-fg)
 - [Twitter](http://twitter.com/akisakanakatana)
 - [Kiite](https://kiite.jp/user/akisakanakatana)
+- [Raindrop.io](https://raindrop.io/fujii/main-6617507)
 - [~~Delicious~~](https://delicious.com/botano)
 - [~~Tumblr~~](http://botano.tumblr.com/)
 - [~~Hatena Antenna~~](http://a.hatena.ne.jp/botano/)
