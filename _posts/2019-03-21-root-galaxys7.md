@@ -142,7 +142,7 @@ Odin3 を起動し、先程取得したファームウェアのパスを Odin3 �
 どの枠にどのファイルを指定すればいいかについても、ファイル名を見れば明らかである。
 全て指定すれば以下の図のようになる:
 
-![Odin3 x Galaxy Stock ROM](/images/photos/2019-03-21-odin1.jpg**
+![Odin3 x Galaxy Stock ROM](/images/photos/2019-03-21-odin1.jpg)
 
 Start ボタンはまだ押さない。押しても何も起きない。
 端末をダウンロードモードで接続してから押す。
