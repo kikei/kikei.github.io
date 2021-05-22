@@ -4,8 +4,7 @@ title: About
 permalink: /about/
 ---
 
-基本的には自分向けの覚書というスタンスです。
-おそらくソフトウェア・コンピュータプログラミングに関することを書くと思います。
+掲載している記事はだいたい作業メモです。
 
 以下も個人的なポータルリンク集です。
 
@@ -15,6 +14,7 @@ permalink: /about/
 - [Twitter](http://twitter.com/akisakanakatana)
 - [Kiite](https://kiite.jp/user/akisakanakatana)
 - [Raindrop.io](https://raindrop.io/fujii/main-6617507)
+- [Feed43](https://feed43.com/users/akisakanakatana)
 - [~~Delicious~~](https://delicious.com/botano)
 - [~~Tumblr~~](http://botano.tumblr.com/)
 - [~~Hatena Antenna~~](http://a.hatena.ne.jp/botano/)
